@@ -3,12 +3,13 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const warehouseRoutes = require("./routes/warehouseRoute");
-const inventoryRoutes = require("./routes/inventoryRoute");
+const warehousesRoutes = require("./routes/warehousesRoute");
+const inventoriesRoutes = require("./routes/inventoriesRoute");
 
-// all warehouses routes
-app.use("/warehouses", warehouseRoutes);
-app.use("/inventory", inventoryRoutes);
+// all warehouses/inventories routes
+app.use("/api/warehouses", warehousesRoutes);
+app.use("/api/inventories", inventoriesRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`running on Port: ${PORT}`);
