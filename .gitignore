@@ -1,5 +1,4 @@
 /node_modules
-/DB Setup
 .DS_Store
 
 .env
