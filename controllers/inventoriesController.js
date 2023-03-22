@@ -11,5 +11,15 @@ exports.index = (_req, res) => {
     );
 };
 
-// exports.??? = (req, res) => {
-// };
+exports.addInventory = (req, res) => {
+
+  knex("inventories")
+    .insert(req.body, id)
+    .then((data) => {
+      // For POST requests we need to respond with 201 and the location of the newly created record
+      console.log(data[0]);
+      const newWarehouseURL = `/api/inventory/${data[0]}`;
+      res.status(201).location(newWarehouseURL).send(newWarehouseURL);
+    })
+    .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
+};
