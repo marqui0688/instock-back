@@ -1,6 +1,5 @@
 /** @format */
 const crypto = require('crypto')
-
 const knex = require("knex")(require("../knexfile"));
 
 // to use: send GET to http://localhost:8080/api/warehouses
