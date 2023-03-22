@@ -10,3 +10,6 @@ exports.index = (_req, res) => {
       res.status(400).send(`Error retrieving Inventories: ${err}`)
     );
 };
+
+// exports.??? = (req, res) => {
+// };
