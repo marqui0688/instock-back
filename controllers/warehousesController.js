@@ -13,6 +13,7 @@ exports.index = (_req, res) => {
     );
 };
 
+//add warehouse
 exports.addWarehouse = (req, res) => {
   // Validate the request body for required data
 const id = crypto.randomUUID()
@@ -56,7 +57,6 @@ exports.getSingleWarehouse = (req, res) => {
           .status(404)
           .send(`Record with id: ${req.params.id} is not found`);
       }
-
       // Knex returns an array of records, so we need to send response with a single object only
       res.status(200).json(data[0]);
     })
