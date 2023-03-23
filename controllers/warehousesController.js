@@ -13,6 +13,7 @@ exports.index = (_req, res) => {
     );
 };
 
+//add warehouse
 exports.addWarehouse = (req, res) => {
   // Validate the request body for required data
 const id = crypto.randomUUID()
@@ -43,4 +44,23 @@ const id = crypto.randomUUID()
       res.status(201).location(newWarehouseURL).send(newWarehouseURL);
     })
     .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
+};
+
+//get sincgle warehouse
+exports.getSingleWarehouse = (req, res) => {
+  knex("warehouses")
+    .where({ id: req.params.id })
+    .then((data) => {
+      // If record is not found, respond with 404
+      if (!data.length) {
+        return res
+          .status(404)
+          .send(`Record with id: ${req.params.id} is not found`);
+      }
+      // Knex returns an array of records, so we need to send response with a single object only
+      res.status(200).json(data[0]);
+    })
+    .catch((err) =>
+      res.status(400).send(`Error retrieving warehouse ${req.params.id} ${err}`)
+    );
 };
