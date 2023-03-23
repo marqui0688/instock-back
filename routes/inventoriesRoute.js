@@ -5,4 +5,6 @@ router.route("/").get(inventoriesController.index);
 
 router.route("/").post(inventoriesController.addInventory);
 
+router.route("/:id").delete(inventoriesController.deleteInventory)
+
 module.exports = router;

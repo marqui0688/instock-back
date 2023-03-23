@@ -24,7 +24,7 @@ exports.addInventory = (req, res) => {
     !req.body.description ||
     !req.body.category ||
     !req.body.status ||
-    !req.body.quantity 
+    !req.body.quantity
 
   ) {
     return res.status(400).send("Please fill in all fields");
@@ -39,4 +39,20 @@ exports.addInventory = (req, res) => {
       res.status(201).location(newWarehouseURL).send(newWarehouseURL);
     })
     .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
+};
+
+
+exports.deleteInventory = (req, res) => {
+  knex("inventories")
+    .delete()
+    .where({ id: req.params.id })
+    .then( () => {
+      // For DELETE response we can use 204 status code
+      res
+        .status(204)
+        .send(`Inventory item with id: ${req.params.id} has been deleted`);
+    })
+    .catch((err) =>
+      res.status(400).send(`Error deleting inventory item ${req.params.id} ${err}`)
+    );
 };
