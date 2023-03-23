@@ -10,4 +10,7 @@ router
   .route("/:warehouseId/inventories")
   .get(warehousesController.allInventoriesforWarehouse);
 
+router.route('/:id').get(warehousesController.getSingleWarehouse);
+
+
 module.exports = router;
