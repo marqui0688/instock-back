@@ -24,8 +24,7 @@ exports.addInventory = (req, res) => {
     !req.body.description ||
     !req.body.category ||
     !req.body.status ||
-    !req.body.quantity 
-
+    !req.body.quantity
   ) {
     return res.status(400).send("Please fill in all fields");
   }
@@ -34,9 +33,29 @@ exports.addInventory = (req, res) => {
     .insert(req.body, id)
     .then((data) => {
       // For POST requests we need to respond with 201 and the location of the newly created record
-      // console.log(data[0]);
       const newWarehouseURL = `/api/inventories/${data[0]}`;
       res.status(201).location(newWarehouseURL).send(newWarehouseURL);
     })
     .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
+};
+
+// GET /api/inventories/043a70e2-cf28-4ce1-a9a4-e5b3fac9c593
+exports.getSingleInventory = (req, res) => {
+  // Note: The warehouse name must also be included in the response.
+  knex("inventories")
+    .select("*")
+    .join("warehouses", "inventories.warehouse_id", "warehouses.id")
+    .where({ "inventories.id": req.params.inventoryId })
+    .then((data) => {
+      // remove from the obj NOT from db
+      delete data[0].warehouse_id;
+      delete data[0].created_at;
+      delete data[0].updated_at;
+      // Response returns 200 if successful
+      res.status(200).json(data);
+    })
+    .catch((err) =>
+      // Response returns 404 if the ID is not found
+      res.status(404).send(`The ID: ${req.params.id} is not found; ${err}`)
+    );
 };
