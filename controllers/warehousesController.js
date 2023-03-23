@@ -65,7 +65,7 @@ exports.getSingleWarehouse = (req, res) => {
     );
 };
 
-//edit warehouse
+//edit / update  warehouse
 exports.updateWarehouse = (req, res) => {
   knex("warehouses")
     .update(req.body)
