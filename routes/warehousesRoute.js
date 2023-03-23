@@ -5,5 +5,7 @@ router.route("/").get(warehousesController.index);
 
 router.route("/").post(warehousesController.addWarehouse);
 
+router.route('/:id').get(warehousesController.getSingleWarehouse)
+
 
 module.exports = router;
