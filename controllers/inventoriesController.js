@@ -39,7 +39,24 @@ exports.addInventory = (req, res) => {
     .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
 };
 
+exports.deleteInventory = (req, res) => {
+  knex("inventories")
+    .delete()
+    .where({ id: req.params.id })
+    .then(() => {
+      // For DELETE response we can use 204 status code
+      res
+        .status(204)
+        .send(`Inventory item with id: ${req.params.id} has been deleted`);
+    })
+    .catch((err) =>
+      res
+        .status(400)
+        .send(`Error deleting inventory item ${req.params.id} ${err}`)
+    );
+};
 // GET /api/inventories/043a70e2-cf28-4ce1-a9a4-e5b3fac9c593
+
 exports.getSingleInventory = (req, res) => {
   // Note: The warehouse name must also be included in the response.
   knex("inventories")
