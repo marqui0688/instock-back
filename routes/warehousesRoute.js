@@ -7,5 +7,7 @@ router.route("/").post(warehousesController.addWarehouse);
 
 router.route('/:id').get(warehousesController.getSingleWarehouse)
 
+router.route("/:id").put(warehousesController.updateWarehouse)
+
 
 module.exports = router;
