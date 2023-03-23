@@ -43,14 +43,22 @@ exports.addInventory = (req, res) => {
 exports.getSingleInventory = (req, res) => {
   // Note: The warehouse name must also be included in the response.
   knex("inventories")
-    .select("*")
+    .select(
+      "inventories.id",
+      "inventories.item_name",
+      "inventories.description",
+      "inventories.category",
+      "inventories.status",
+      "inventories.quantity",
+      "warehouses.warehouse_name"
+    )
     .join("warehouses", "inventories.warehouse_id", "warehouses.id")
     .where({ "inventories.id": req.params.inventoryId })
     .then((data) => {
       // remove from the obj NOT from db
-      delete data[0].warehouse_id;
-      delete data[0].created_at;
-      delete data[0].updated_at;
+      // delete data[0].warehouse_id;
+      // delete data[0].created_at;
+      // delete data[0].updated_at;
       // Response returns 200 if successful
       res.status(200).json(data);
     })
