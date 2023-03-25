@@ -95,3 +95,14 @@ exports.updateWarehouse = (req, res) => {
       res.status(400).send(`Error updating Warehouse ${req.params.id} ${err}`)
     );
 };
+
+//delete  warehouse
+exports.deleteWarehouse = (req, res) => {
+  knex("warehouses")
+    .delete()
+    .where({ id: req.params.warehouseId })
+    .then((data) => res.status(200).json(data))
+    .catch((err) =>
+      res.status(404).send(`Error deleting Warehouse ${req.params.id} ${err}`)
+    );
+};
