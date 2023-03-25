@@ -100,3 +100,31 @@ exports.getSingleInventory = (req, res) => {
         .send(`Error retrieving inventories id: ${req.params.id} ${err}`)
     );
 };
+
+
+//edit / update  warehouse
+exports.updateInventory = (req, res) => {
+
+//  if (
+//    !req.body.warehouse_id ||
+//    !req.body.item_name ||
+//    !req.body.description ||
+//    !req.body.category ||
+//    !req.body.status ||
+//    !req.body.quantity
+//  ) {
+//    return res.status(400).send("Please fill in all fields");
+//  }
+
+  knex("inventories")
+    .update(req.body)
+    .where({ id: req.params.id })
+    .then(() => {
+      res
+        .status(200)
+        .send(`Item with id: ${req.params.id} has been updated`);
+    })
+    .catch((err) =>
+      res.status(400).send(`Error updating item ${req.params.id} ${err}`)
+    );
+};
