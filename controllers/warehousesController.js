@@ -2,7 +2,6 @@
 const crypto = require("crypto");
 const knex = require("knex")(require("../knexfile"));
 
-// to use: send GET to http://localhost:8080/api/warehouses
 exports.index = (_req, res) => {
   knex("warehouses")
     .then((data) => {
@@ -13,11 +12,8 @@ exports.index = (_req, res) => {
     );
 };
 
-//add warehouse
 exports.addWarehouse = (req, res) => {
-  // Validate the request body for required data
   const id = crypto.randomUUID();
-  console.log(req.body);
   if (
     !req.body.warehouse_name ||
     !req.body.address ||
@@ -30,20 +26,17 @@ exports.addWarehouse = (req, res) => {
   ) {
     return res.status(400).send("Please fill in all fields");
   }
-
   knex("warehouses")
     .insert(req.body, id)
-    .then((data) => {
-      // For POST requests we need to respond with 201 and the location of the newly created record
+    .then((_data) => {
+      // WARNING! For POST requests we need to respond with 201 AND the location of the newly created record
       const newWarehouseURL = `/api/warehouses/${id}`;
       res.status(201).location(newWarehouseURL).send(newWarehouseURL);
     })
     .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
 };
 
-// GET /api/warehouses/5bf7bd6c-2b16-4129-bddc-9d37ff8539e9/inventories
 exports.allInventoriesforWarehouse = (req, res) => {
-  // if the Inventory is empty on a legit warehouse, the data in res will be EXACLTY length 1 with a LEFT JOIN
   knex
     .select("*")
     .from("warehouses")
@@ -53,14 +46,10 @@ exports.allInventoriesforWarehouse = (req, res) => {
     .where({ "warehouses.id": req.params.warehouseId })
     .then((data) => {
       if (!data.length) {
-        // Response returns 404 if warehouse ID is not found
         return res
           .status(404)
-          .send(
-            `Record with ID: ${req.params.id} is not found. OR Warehouse's inventories are empty`
-          );
+          .send(`Record with warehouse ID: ${req.params.id} is not found`);
       }
-      // Response returns 200 if warehouse exists
       res.status(200).json(data);
     })
     .catch((err) =>
@@ -70,18 +59,15 @@ exports.allInventoriesforWarehouse = (req, res) => {
     );
 };
 
-//get sincgle warehouse
 exports.getSingleWarehouse = (req, res) => {
   knex("warehouses")
     .where({ id: req.params.id })
     .then((data) => {
-      // If record is not found, respond with 404
       if (!data.length) {
         return res
           .status(404)
           .send(`Record with id: ${req.params.id} is not found`);
       }
-      // Knex returns an array of records, so we need to send response with a single object only
       res.status(200).json(data[0]);
     })
     .catch((err) =>
@@ -89,7 +75,6 @@ exports.getSingleWarehouse = (req, res) => {
     );
 };
 
-//edit / update  warehouse
 exports.updateWarehouse = (req, res) => {
   knex("warehouses")
     .update(req.body)
@@ -104,7 +89,6 @@ exports.updateWarehouse = (req, res) => {
     );
 };
 
-//delete  warehouse
 exports.deleteWarehouse = (req, res) => {
   knex("warehouses")
     .delete()

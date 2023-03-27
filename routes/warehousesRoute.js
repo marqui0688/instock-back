@@ -8,7 +8,6 @@ router
 
 router.route("/:warehouseId").delete(warehousesController.deleteWarehouse);
 
-// GET /api/warehouses/:id/inventories will be called ONLY if warehouse_id exists 
 router
   .route("/:warehouseId/inventories")
   .get(warehousesController.allInventoriesforWarehouse);
@@ -16,5 +15,7 @@ router
 router.route("/:id").get(warehousesController.getSingleWarehouse);
 
 router.route("/:id").put(warehousesController.updateWarehouse);
+
 router.route("/").post(warehousesController.addWarehouse);
+
 module.exports = router;
