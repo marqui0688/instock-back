@@ -16,5 +16,5 @@ router
 router.route("/:id").get(warehousesController.getSingleWarehouse);
 
 router.route("/:id").put(warehousesController.updateWarehouse);
-
+router.route("/").post(warehousesController.addWarehouse);
 module.exports = router;
