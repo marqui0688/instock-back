@@ -8,12 +8,15 @@ router
 
 router.route("/:warehouseId").delete(warehousesController.deleteWarehouse);
 
+router.route("/").post(warehousesController.addWarehouse);
+
+
 // GET /api/warehouses/:id/inventories
 router
   .route("/:warehouseId/inventories")
   .get(warehousesController.allInventoriesforWarehouse);
 
-router.route("/:id").get(warehousesController.getSingleWarehouse);
+router.route("/:id").get(warehousesController.addWarehouse);
 
 router.route("/:id").put(warehousesController.updateWarehouse);
 
