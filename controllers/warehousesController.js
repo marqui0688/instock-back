@@ -43,6 +43,7 @@ exports.addWarehouse = (req, res) => {
 
 // GET /api/warehouses/5bf7bd6c-2b16-4129-bddc-9d37ff8539e9/inventories
 exports.allInventoriesforWarehouse = (req, res) => {
+  // if the Inventory is empty on a legit warehouse, the data in res will be EXACLTY length 1 with a LEFT JOIN
   knex
     .select("*")
     .from("warehouses")
@@ -51,12 +52,6 @@ exports.allInventoriesforWarehouse = (req, res) => {
     })
     .where({ "warehouses.id": req.params.warehouseId })
     .then((data) => {
-      // if the Inventory is empty on a legit warehouse, the data in res will be EXACLTY length 1 on a LEFT JOIN
-      if (data.length === 1) {
-        // console.log(req.params.warehouseId);
-        console.log("inventories are empty");
-        return res.status(200).json(data);
-      }
       if (!data.length) {
         // Response returns 404 if warehouse ID is not found
         return res
