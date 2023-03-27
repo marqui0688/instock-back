@@ -17,7 +17,7 @@ exports.index = (_req, res) => {
 exports.addWarehouse = (req, res) => {
   // Validate the request body for required data
   const id = crypto.randomUUID();
-
+  console.log(req.body);
   if (
     !req.body.warehouse_name ||
     !req.body.address ||
@@ -35,7 +35,7 @@ exports.addWarehouse = (req, res) => {
     .insert(req.body, id)
     .then((data) => {
       // For POST requests we need to respond with 201 and the location of the newly created record
-      const newWarehouseURL = `/api/warehouses/${data[0]}`;
+      const newWarehouseURL = `/api/warehouses/${id}`;
       res.status(201).location(newWarehouseURL).send(newWarehouseURL);
     })
     .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
