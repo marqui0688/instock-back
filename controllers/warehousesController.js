@@ -55,7 +55,7 @@ exports.allInventoriesforWarehouse = (req, res) => {
       if (data.length === 1) {
         // console.log(req.params.warehouseId);
         console.log("inventories are empty");
-        return res.status(200).send(data);
+        return res.status(200).json(data);
       }
       if (!data.length) {
         // Response returns 404 if warehouse ID is not found
