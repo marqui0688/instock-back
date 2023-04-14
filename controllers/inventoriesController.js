@@ -94,6 +94,18 @@ exports.getSingleInventory = (req, res) => {
 };
 
 exports.updateInventory = (req, res) => {
+
+ if (
+   !req.body.warehouse_id ||
+   !req.body.item_name ||
+   !req.body.description ||
+   !req.body.category ||
+   !req.body.status ||
+   !req.body.quantity
+ ) {
+   return res.status(400).send("Please fill in all fields");
+ }
+
   knex("inventories")
     .update(req.body)
     .where({ id: req.params.id })
