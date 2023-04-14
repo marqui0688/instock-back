@@ -8,6 +8,8 @@ const cors = require('cors')
 const warehousesRoutes = require("./routes/warehousesRoute");
 const inventoriesRoutes = require("./routes/inventoriesRoute");
 
+
+
 app.use(express.json()); // for accessing
 
 app.use(cors())
